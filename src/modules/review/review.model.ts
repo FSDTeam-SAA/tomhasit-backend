@@ -5,7 +5,7 @@ const reviewSchema = new Schema<IReview>(
   {
     fullName: { type: String, required: true },
     comment: { type: String, required: true },
-    reply: { type: String, required: false },
+    reply: [{ type: String }],
   },
   { timestamps: true, versionKey: false }
 );
