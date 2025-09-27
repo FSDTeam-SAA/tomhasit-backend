@@ -20,5 +20,7 @@ router.put(
   galleryController.updateGallery
 );
 
+router.delete("/delete/:id", galleryController.deleteGallery);
+
 const galleryRouter = router;
 export default galleryRouter;
