@@ -6,10 +6,27 @@ const addReview = async (payload: IReview) => {
   return result;
 };
 
-const getAllReviews = async () => {
-  const result = await Review.find().sort({ createdAt: -1 });
-  return result;
+const getAllReviews = async (page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+
+  const reviews = await Review.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Review.countDocuments();
+
+  return {
+    reviews,
+    meta: {
+      limit,
+      page,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+  };
 };
+
 
 const addReviewReply = async (reviewId: string, reply: { reply: string }) => {
   const existingReview = await Review.findById(reviewId);

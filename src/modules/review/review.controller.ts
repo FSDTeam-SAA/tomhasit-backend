@@ -16,15 +16,19 @@ const addReview = catchAsync(async (req, res) => {
 });
 
 const getAllReviews = catchAsync(async (req, res) => {
-  const result = await reviewService.getAllReviews();
+  const { page = 1, limit = 10 } = req.query; // default page=1, limit=10
+
+  const result = await reviewService.getAllReviews(Number(page), Number(limit));
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
     message: "Reviews fetched successfully",
-    data: result,
+    data: result.reviews,
+    meta: result.meta, // return pagination info
   });
 });
+
 
 const addReviewReply = catchAsync(async (req, res) => {
   const { reviewId } = req.params;

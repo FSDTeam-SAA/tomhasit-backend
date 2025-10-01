@@ -15,15 +15,22 @@ const addGallery = catchAsync(async (req, res) => {
 });
 
 const getAllGalleries = catchAsync(async (req, res) => {
-  const result = await galleryService.getAllGalleries();
+  const { page = 1, limit = 10 } = req.query; // default values
+
+  const result = await galleryService.getAllGalleries(
+    Number(page),
+    Number(limit)
+  );
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
     message: "Galleries fetched successfully",
-    data: result,
+    data: result.galleries,
+    meta: result.meta,
   });
 });
+
 
 const getGalleryById = catchAsync(async (req, res) => {
   const { id } = req.params;
