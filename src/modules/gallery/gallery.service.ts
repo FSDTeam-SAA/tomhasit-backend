@@ -60,6 +60,11 @@ const getAllGalleries = async (page: number, limit: number) => {
 
 
 const getGalleryById = async (id: string) => {
+  const gallery = await Gallery.findById(id);
+  if (!gallery) {
+    throw new Error("Gallery not found");
+  }
+
   const result = await Gallery.findById(id);
   return result;
 };
