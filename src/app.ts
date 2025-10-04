@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: "*",
-  // origin: ["http://localhost:3000", "http://localhost:3001"],
+  // origin: "*",
+  origin: ["http://localhost:3000", "http://localhost:3001", "*"],
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
 };
