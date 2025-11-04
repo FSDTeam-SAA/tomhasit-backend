@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 const corsOptions = {
   origin: [
-    "https://providingdialtone.com",
+    "https://providingdialtone.com"
   ],
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,

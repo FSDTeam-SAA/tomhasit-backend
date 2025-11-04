@@ -15,9 +15,10 @@ const addGallery = catchAsync(async (req, res) => {
 });
 
 const getAllGalleries = catchAsync(async (req, res) => {
-  const { page = 1, limit = 10 } = req.query; // default values
+  const { page = 1, limit = 10, all } = req.query;
 
   const result = await galleryService.getAllGalleries(
+    all === "true" || all === "1" || all === "yes", // convert to boolean
     Number(page),
     Number(limit)
   );
@@ -30,6 +31,7 @@ const getAllGalleries = catchAsync(async (req, res) => {
     meta: result.meta,
   });
 });
+
 
 
 const getGalleryById = catchAsync(async (req, res) => {

@@ -37,26 +37,40 @@ const addGallery = async (payload: IGallery, file: any) => {
   return result;
 };
 
-const getAllGalleries = async (page: number, limit: number) => {
-  const skip = (page - 1) * limit;
+const getAllGalleries = async (all: boolean, page: number, limit: number) => {
+  let galleries;
+  let meta;
 
-  const galleries = await Gallery.find()
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit);
+  if (all) {
+    // Return all galleries (no pagination)
+    galleries = await Gallery.find().sort({ createdAt: -1 });
+    meta = {
+      total: galleries.length,
+      page: 1,
+      limit: galleries.length,
+      totalPage: 1,
+    };
+  } else {
+    // Apply pagination
+    const skip = (page - 1) * limit;
+    galleries = await Gallery.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
-  const total = await Gallery.countDocuments();
+    const total = await Gallery.countDocuments();
 
-  return {
-    galleries,
-    meta: {
+    meta = {
       total,
       page,
       limit,
       totalPage: Math.ceil(total / limit),
-    },
-  };
+    };
+  }
+
+  return { galleries, meta };
 };
+
 
 
 const getGalleryById = async (id: string) => {
